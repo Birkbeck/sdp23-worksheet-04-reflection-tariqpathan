@@ -18,6 +18,11 @@ public class InstantiateClass {
                 Constructor constructor = getConstructor(cls, args.length);
                 Class[] parameterTypes = constructor.getParameterTypes();
                 System.out.println(Arrays.asList(parameterTypes));
+
+                // these will be the args used to create the args[0] object
+                // these first need to be converted from strings as they are
+                // taken from the command line and then converted to their
+                // appropriate type
                 Object[] typedArgs = new Object[args.length - 1];
                 for (int i = 0; i < typedArgs.length; i++) {
                     typedArgs[i] = parameterTypes[i].getConstructor(String.class).newInstance(args[i + 1]);
@@ -45,6 +50,8 @@ public class InstantiateClass {
         for (Constructor c: constructorsArray) {
             System.out.println("paramCount: " + c.getParameterCount());
             if (c.getParameterCount() == argsLength - 1) {
+                Class[] parameterTypes = c.getParameterTypes();
+                if (Arrays.stream(parameterTypes).allMatch("java.lang.String"::equals))
                 return c;
             }
         }
