@@ -50,9 +50,7 @@ public class InstantiateClass {
         for (Constructor c: constructorsArray) {
             System.out.println("paramCount: " + c.getParameterCount());
             if (c.getParameterCount() == argsLength - 1) {
-                Class[] parameterTypes = c.getParameterTypes();
-                if (Arrays.stream(parameterTypes).allMatch("java.lang.String"::equals))
-                return c;
+                if (Arrays.stream(c.getParameterTypes()).allMatch("java.lang.String"::equals)) return c;
             }
         }
         throw new NoSuchMethodException();
