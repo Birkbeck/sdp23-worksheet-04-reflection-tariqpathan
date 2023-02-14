@@ -49,11 +49,23 @@ public class InstantiateClass {
         Constructor[] constructorsArray = cls.getConstructors(); // why not DeclaredConstructors
         for (Constructor c: constructorsArray) {
             System.out.println("paramCount: " + c.getParameterCount());
-            if (c.getParameterCount() == argsLength - 1) {
-                if (Arrays.stream(c.getParameterTypes()).allMatch("java.lang.String"::equals)) return c;
+            if (c.getParameterCount() != argsLength - 1) {
+                continue;
             }
+            if (Arrays.stream(c.getParameterTypes()).allMatch("java.lang.String"::equals)) return c;
+
         }
         throw new NoSuchMethodException();
+    }
+
+    private static Object[] getTypedArgs (Constructor c, String[] args, int argsLength)
+            throws NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException {
+        Object[] typedArgs = new Object[argsLength - 1];
+        Class[] parameterTypes = c.getParameterTypes();
+        for (int i = 0; i < typedArgs.length; i++) {
+            typedArgs[i] = parameterTypes[i].getConstructor(String.class).newInstance(args[i + 1]);
+        }
+        return typedArgs;
     }
 
 }
