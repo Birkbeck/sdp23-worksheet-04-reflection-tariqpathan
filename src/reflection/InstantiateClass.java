@@ -23,10 +23,7 @@ public class InstantiateClass {
                 // these first need to be converted from strings as they are
                 // taken from the command line and then converted to their
                 // appropriate type
-                Object[] typedArgs = new Object[args.length - 1];
-                for (int i = 0; i < typedArgs.length; i++) {
-                    typedArgs[i] = parameterTypes[i].getConstructor(String.class).newInstance(args[i + 1]);
-                }
+                Object[] typedArgs = getTypedArgs(constructor, args);
                 Object obj = constructor.newInstance(typedArgs);
                 System.out.println(obj.toString());
 //                java.lang.reflect.Constructor.newInstance();
@@ -48,19 +45,19 @@ public class InstantiateClass {
     private static Constructor getConstructor(Class<?> cls, int argsLength) throws NoSuchMethodException {
         Constructor[] constructorsArray = cls.getConstructors(); // why not DeclaredConstructors
         for (Constructor c: constructorsArray) {
-            System.out.println("paramCount: " + c.getParameterCount());
-            if (c.getParameterCount() != argsLength - 1) {
-                continue;
-            }
-            if (Arrays.stream(c.getParameterTypes()).allMatch("java.lang.String"::equals)) return c;
 
+            if (c.getParameterCount() == argsLength - 1) {
+                System.out.println("lengths match");
+                Arrays.stream(c.getParameterTypes()).forEach(System.out::println);
+                if (Arrays.stream(c.getParameterTypes()).allMatch(String.class::equals)) return c;
+            }
         }
         throw new NoSuchMethodException();
     }
 
-    private static Object[] getTypedArgs (Constructor c, String[] args, int argsLength)
-            throws NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException {
-        Object[] typedArgs = new Object[argsLength - 1];
+    private static Object[] getTypedArgs (Constructor c, String[] args) throws NoSuchMethodException,
+            InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Object[] typedArgs = new Object[args.length - 1];
         Class[] parameterTypes = c.getParameterTypes();
         for (int i = 0; i < typedArgs.length; i++) {
             typedArgs[i] = parameterTypes[i].getConstructor(String.class).newInstance(args[i + 1]);
