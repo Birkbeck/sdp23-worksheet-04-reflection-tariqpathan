@@ -59,7 +59,12 @@ public class Autograder {
     }
     @Test
     public void testMethodHasThrowsClause() {
-        // TODO: add testing code
+        Method[] methods = cls.getMethods();
+        for (Method m : methods) {
+            if (m.getExceptionTypes().length > 0) {
+                throw new RuntimeException(m.getName() + " throws an Exception");
+            }
+        }
     }
     @Test
     public void testMethodReturnsInt() {
