@@ -12,21 +12,21 @@ public class Autograder {
 
     static final String CLASS_NAME = ""; // TODO: insert the class name to be tested
 
-    Class cls = Class.forName(CLASS_NAME);
+    Class clazz = Class.forName(CLASS_NAME);
 
     public Autograder() throws ClassNotFoundException {
     }
 
     @Test
     public void testMoreThanFourFields() {
-        if (cls.getDeclaredFields().length > 4) {
+        if (clazz.getDeclaredFields().length > 4) {
             throw new RuntimeException("Class contains more than 4 fields");
         }
     }
 
     @Test
     public void testNonPrivateFields() {
-        Field[] fields = cls.getDeclaredFields();
+        Field[] fields = clazz.getDeclaredFields();
         for (Field f : fields) {
             if (!Modifier.isPrivate(f.getModifiers())) {
                 throw new RuntimeException(f.getName() + "is a non-private field");
@@ -36,7 +36,7 @@ public class Autograder {
 
     @Test
     public void testArrayListField() {
-        Field[] fields = cls.getDeclaredFields();
+        Field[] fields = clazz.getDeclaredFields();
         for (Field f : fields) {
             if (f.getType().isAssignableFrom(ArrayList.class)) {
                 throw new RuntimeException(f.getName() + " contains a field of ArrayList");
@@ -45,7 +45,7 @@ public class Autograder {
     }
     @Test
     public void testMoreThanTwoPrivateHelperMethods() {
-        Method[] methods = cls.getMethods();
+        Method[] methods = clazz.getMethods();
         int countPrivateMethods = 0;
         for (Method m : methods) {
             if (Modifier.isPrivate(m.getModifiers()))
@@ -59,7 +59,7 @@ public class Autograder {
     }
     @Test
     public void testMethodHasThrowsClause() {
-        Method[] methods = cls.getMethods();
+        Method[] methods = clazz.getMethods();
         for (Method m : methods) {
             if (m.getExceptionTypes().length > 0) {
                 throw new RuntimeException(m.getName() + " throws an Exception");
@@ -68,7 +68,7 @@ public class Autograder {
     }
     @Test
     public void testMethodReturnsInt() {
-        Method[] methods = cls.getMethods();
+        Method[] methods = clazz.getMethods();
         for (Method m : methods) {
             if (m.getReturnType().equals(Integer.TYPE)) {
                 throw new RuntimeException("Method " + m.getName() + " returns an int");
@@ -77,7 +77,7 @@ public class Autograder {
     }
     @Test
     public void testMissingZeroArgumentConstructor() {
-        Constructor[] constructors = cls.getConstructors();
+        Constructor[] constructors = clazz.getConstructors();
         for (Constructor c : constructors) {
             if (c.getParameterCount() == 0) {
                 return;
