@@ -69,3 +69,35 @@ which represents the members of a class with `Method`, `Constructor`, and `Field
    for testing your solution.
 
 ------
+#Redo Q2 for constructor params of other types
+##Notes
+*1hr*
+Java implicitly creates a constructor if none is provided. 
+Therefore, all classes have 1 constructor at minimum.
+
+When extending from a super class: Java implicitly calls super if a super() call is missing.
+
+If a parent class has the same variable name and it's parent also does too, then when the child class
+makes a call to super, only the immediate parent variable name can be inherited. 
+The "grandparent" variable is not accessible.
+
+Don't call methods from constructors apart from a few such as:
++ final methods [which cannot be overridden]
++ static methods
++ private methods
+
+###For coursework: use Q2 and String params to help out
+
+For testing, loops might not be good.
+This is because a failure in one part of the loop doesn't check the rest of the loop.
+Use parameterized tests.
+
+@BeforeEach and @BeforeAll for JUnit tests
+
+----
+###Design Patterns (Week 5)
+In a Singleton constructor, would there be an issue if the constructor 
+had to do something resource-intensive?
+Issues with multi-threading
+Can the reflection API affect/break this pattern?
+
