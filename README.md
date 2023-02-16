@@ -97,7 +97,26 @@ Use parameterized tests.
 ----
 ###Design Patterns (Week 5)
 In a Singleton constructor, would there be an issue if the constructor 
-had to do something resource-intensive?
-Issues with multi-threading
-Can the reflection API affect/break this pattern?
+had to do something resource-intensive? (very expensive constructor problem)
+Solutions: use lazy initialization: getInstance()==null ? createInstance() : nothing
+```java
+class Singleton {
+    private static Singleton instance;  
+    public static Singleton getInstance() {
+         if (instance == null) {
+            instance = new Singleton();
+         }
+         return instance;
+      }
+}
+```
+This doesn't solve the problem because of concurrency.
+Issues with multi-threading as both threads will see that the instances are null.
 
+Can the reflection API affect/break this pattern? 
+* The reflection API breaks this pattern
+
+Singleton solution:
+```java
+
+```
